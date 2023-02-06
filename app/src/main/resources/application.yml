@@ -1,12 +1,12 @@
 datasource:
   db:
-    username: ""
-    password: ""
-    url: "jdbc:h2:./hexlet"
-  other:
     url: "jdbc:postgresql://containers-us-west-49.railway.app:7832/postgres"
     username: "postgres"
     password: "MqWZM8cX3AeyYHfI1N8z"
+  other:
+    username: ""
+    password: ""
+    url: "jdbc:h2:./hexlet"
 ebean:
   migration:
     run: true
