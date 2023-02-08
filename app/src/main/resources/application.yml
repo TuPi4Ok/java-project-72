@@ -1,9 +1,9 @@
 datasource:
-  db:
+  production:
     url: "jdbc:postgresql://containers-us-west-49.railway.app:7832/postgres"
     username: "postgres"
     password: "MqWZM8cX3AeyYHfI1N8z"
-  other:
+  development:
     username: ""
     password: ""
     url: "jdbc:h2:./hexlet"
