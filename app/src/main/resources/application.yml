@@ -1,4 +1,5 @@
 datasource:
+  default: ${APP_ENV}
   production:
     url: "jdbc:postgresql://containers-us-west-49.railway.app:7832/postgres"
     username: "postgres"
@@ -6,7 +7,7 @@ datasource:
   development:
     username: ""
     password: ""
-    url: "jdbc:h2:./hexlet"
+    url: "jdbc:h2:./hexlet1"
 ebean:
   migration:
     run: true

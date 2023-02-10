@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Анализатор страниц</title>
+  <link rel='stylesheet' href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+  <script src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<body class="d-flex flex-column min-vh-100">
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Анализатор страниц</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="/" class="nav-link" aria-current="page">Главная</a>
+          </li>
+          <li class="nav-item">
+            <a href="/urlspage=1" class="nav-link" aria-current="page">Сайты</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<main class="flex-grow-1">
+  <div th:if="${session.flash}" class="rounded-0 m-0 alert alert-dismissible fade show alert-success" role="alert">
+    <p class="m-0" th:text="${session.flash}"></p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" area-lable="close"></button>
+    <div th:if="${session.flash}" th:text="${#session.removeAttribute('flash')}"></div>
+  </div>
+
+  <section>
+    <div class="container-lg mt-5">
+      <div class="row ">
+        <div class="col-3">
+          <h1>Сайты</h1>
+        </div>
+      </div>
+
+      <div class="row m-1">
+        <table class="table table-bordered table-hover">
+          <thead>
+          <tr>
+            <th class="col-1">ID</th>
+            <th class="col-8">Имя</th>
+            <th class="col-2">Последняя проверка</th>
+            <th class="col-1">Код ответа</th>
+          </tr>
+          </thead>
+          <tbody>
+            <tr th:each="url : ${urls}">
+              <td th:text="${url.getId()}"></td>
+              <td><a th:text="${url.getName()}" th:href="@{/urls/{id}(id=*{url.getId()})}"></a></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+      <nav th:if="${count != 0}" aria-label="Page navigation p-0">
+        <ul class="pagination justify-content-center mt-3">
+          <li th:if="${count + 10 - page * 10 > 10}" class="page-item disabled">
+            <a class="page-link" th:href="@{/urls(page=(${page < 2}) ? 1 : (${page - 1}))}">Previous</a>
+          </li>
+          <li th:if="${count + 10 - page * 10 <= 10}" class="page-item">
+            <a class="page-link" th:href="@{/urls(page=(${page < 2}) ? 1 : (${page - 1}))}">Previous</a>
+          </li>
+
+          <li class="page-item active"><a class="page-link" th:text="${page}"></a></li>
+
+          <li th:if="${count + 10 - page * 10 <= 10}" class="page-item disabled">
+            <a class="page-link" th:href="@{/urls(page=${page + 1})}">Next</a>
+          </li>
+          <li th:if="${count + 10 - page * 10 > 10}" class="page-item">
+            <a class="page-link" th:href="@{/urls(page=${page + 1})}">Next</a>
+          </li>
+        </ul>
+      </nav>
+  </section>
+</main>
+<footer class="footer border-top py-3 mt-5 bg-light">
+  <div class="container-xl">
+    <div class="text-center">
+      created by
+      <a href="https://ru.hexlet.io/u/tupi4ok">Ivan Prikhodko</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

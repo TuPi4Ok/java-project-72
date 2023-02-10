@@ -30,4 +30,16 @@ public class Url extends Model {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
 }
