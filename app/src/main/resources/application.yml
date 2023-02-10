@@ -1,9 +1,9 @@
 datasource:
   default: ${APP_ENV}
   production:
-    url: "jdbc:postgresql://containers-us-west-49.railway.app:7832/postgres"
+    url: "jdbc:postgresql://containers-us-west-160.railway.app:7900/railway"
     username: "postgres"
-    password: "MqWZM8cX3AeyYHfI1N8z"
+    password: "1siU9rHDMPA2NDHaTVWR"
   development:
     username: ""
     password: ""
