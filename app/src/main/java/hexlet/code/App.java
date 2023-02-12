@@ -34,6 +34,10 @@ public class App {
         });
 
         addRouts(app);
+
+        app.before(ctx -> {
+            ctx.attribute("ctx", ctx);
+        });
         return app;
     }
 
