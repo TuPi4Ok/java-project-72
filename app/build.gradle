@@ -16,6 +16,10 @@ application {
     mainClass = 'hexlet.code.App'
 }
 
+compileJava {
+    options.release = 17
+}
+
 dependencies {
     implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
