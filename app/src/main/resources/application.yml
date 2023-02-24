@@ -1,13 +1,14 @@
 datasource:
-#  default: ${APP_ENV}
-#  production:
-#    url: "jdbc:postgresql://containers-us-west-160.railway.app:7900/railway"
-#    username: "postgres"
-#    password: "1siU9rHDMPA2NDHaTVWR"
+ # default: ${APP_ENV}
   db:
-    username: ""
-    password: ""
-    url: "jdbc:h2:./hexlet1"
+    url: "jdbc:postgresql://dpg-cfsa919gp3jt6tjh7k3g-a.frankfurt-postgres.render.com:5432/page_analyzer_d2b3"
+    username: "page_analyzer_d2b3_user"
+    password: "HmyHpyByFTe0wXZ8HT3aUIEQosiJX6FL"
+#  db:
+#   username: "postgres"
+#    password: "ivan2004"
+#    url: "jdbc:postgresql://localhost:5432/JavaProject"
 ebean:
   migration:
     run: true
+
