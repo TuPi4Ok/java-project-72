@@ -41,15 +41,22 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    testImplementation 'org.assertj:assertj-core:3.19.0'
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'io.ebean:ebean-test:12.15.1'
+    testImplementation 'com.konghq:unirest-java:3.13.6'
+
     implementation 'io.javalin:javalin:4.6.7'
     implementation 'org.slf4j:slf4j-simple:1.7.31'
-
-    implementation 'io.github.cdimascio:dotenv-java:2.3.2'
 }
 
 test {
     useJUnitPlatform()
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
 }
 
 task generateMigration(type: JavaExec) {
