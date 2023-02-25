@@ -19,9 +19,11 @@ public class UrlsController {
         try{
             URL url = new URL(Objects.requireNonNull(getUrl));
             String itogUrl = url.getProtocol() + "://" + url.getHost() + (url.getPort() == -1? "": ( ":" + url.getPort()));
+
             Url findUrl = new QUrl()
                     .name.eq(itogUrl)
                     .findOne();
+
             if (findUrl != null) {
                 ctx.sessionAttribute("flash", "Страница уже существует");
             } else {
