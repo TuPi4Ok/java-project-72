@@ -30,6 +30,11 @@
     </nav>
 </header>
 <main class="flex-grow-1">
+    <div th:if="${session.flash}" class="rounded-0 m-0 alert alert-dismissible fade show alert-success" role="alert">
+        <p class="m-0" th:text="${session.flash}"></p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" area-lable="close"></button>
+        <div th:if="${session.flash}" th:text="${#session.removeAttribute('flash')}"></div>
+    </div>
     <section>
         <div class="container-lg mt-5">
             <div class="row ">
@@ -49,7 +54,7 @@
                     </tr>
                     <tr>
                         <td>Дата создания</td>
-                        <td th:text="${date}"></td>
+                        <td th:text="${url.getFormatDate}"></td>
                     </tr>
                 </tbody>
             </table>
@@ -71,6 +76,16 @@
                         <th class="col-2">Дата проверки</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr th:each="check : ${urlsCheck}">
+                        <td th:text="${check.getId()}"></td>
+                        <td th:text="${check.getStatusCode()}"></td>
+                        <td th:text="${check.getTitle()}"></td>
+                        <td th:text="${check.getH1()}"></td>
+                        <td th:text="${check.getDescription()}"></td>
+                        <td th:text="${check.getFormatDate()}"></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </section>

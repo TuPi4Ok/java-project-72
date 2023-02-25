@@ -45,6 +45,7 @@ dependencies {
     testImplementation 'io.ebean:ebean-test:12.15.1'
     testImplementation 'com.konghq:unirest-java:3.13.6'
 
+    implementation 'com.konghq:unirest-java:3.11.09'
     implementation 'io.javalin:javalin:4.6.7'
     implementation 'org.slf4j:slf4j-simple:1.7.31'
 }

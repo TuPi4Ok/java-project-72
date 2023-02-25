@@ -45,7 +45,8 @@ public class App {
         app.get("/", RootController.root);
         app.post("/urls", UrlsController.addUrl);
         app.get("/urls", UrlsController.urls);
-        app.get("urls/{id}", UrlsController.show);
+        app.get("/urls/{id}", UrlsController.show);
+        app.post("/urls/{id}/checks", UrlsController.check);
     }
 
     public static void main(String[] args) {

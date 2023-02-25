@@ -1,8 +1,11 @@
 package hexlet.code.controller;
 
 import hexlet.code.models.Url;
+import hexlet.code.models.UrlCheck;
 import hexlet.code.models.query.QUrl;
 import io.javalin.http.Handler;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 import java.net.URL;
 import java.util.Objects;
@@ -12,6 +15,11 @@ public class UrlsController {
     private static int getIdFromPath(String path) {
         String[] ids = path.split("/");
         return Integer.parseInt(ids[ids.length - 1]);
+    }
+
+    private static int getIdFromPathCheck(String path) {
+        String[] ids = path.split("/");
+        return Integer.parseInt(ids[ids.length - 2]);
     }
 
     public static Handler addUrl = ctx -> {
@@ -63,8 +71,24 @@ public class UrlsController {
                 .findOne();
 
         ctx.attribute("url", findUrl);
-        String formattedDate = String.format("%1$te/%1$tm/%1$tY %1$tR", findUrl.getCreatedAt());
-        ctx.attribute("date", formattedDate);
+        ctx.render("show.html");
+    };
+
+    public static Handler check = ctx -> {
+        int id = getIdFromPathCheck(ctx.path());
+        Url findUrl = new QUrl()
+                .id.eq(id)
+                .findOne();
+        String name = findUrl.getName();
+
+        HttpResponse<String> responsePost = Unirest
+                .get(name)
+                .asString();
+
+        UrlCheck urlCheck = new UrlCheck(responsePost.getStatus(), "title", "h1", "dd", findUrl);
+        findUrl.setUrlChecks(urlCheck);
+        ctx.attribute("urlsCheck", findUrl.getUrlChecks());
+        ctx.attribute("flash", "Страница успешно проверена");
         ctx.render("show.html");
     };
 }
