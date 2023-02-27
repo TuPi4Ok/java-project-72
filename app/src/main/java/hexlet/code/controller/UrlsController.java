@@ -3,13 +3,17 @@ package hexlet.code.controller;
 import hexlet.code.models.Url;
 import hexlet.code.models.UrlCheck;
 import hexlet.code.models.query.QUrl;
+import hexlet.code.models.query.QUrlCheck;
 import io.javalin.http.Handler;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UrlsController {
     private static int getIdFromPath(String path) {
@@ -70,9 +74,46 @@ public class UrlsController {
                 .id.eq(id)
                 .findOne();
 
+        List<UrlCheck> urlChecks = new QUrlCheck()
+                .url.eq(findUrl)
+                .findList();
+
         ctx.attribute("url", findUrl);
+        if(urlChecks != null && !urlChecks.isEmpty()) {
+            ctx.attribute("urlsCheck", urlChecks);
+        }
         ctx.render("show.html");
     };
+
+    private static String getTitle(HttpResponse responsePost) {
+        String body = responsePost.getBody().toString();
+        Pattern pattern = Pattern.compile("(?<=<title.{0,}>).{1,}(?=<\\/title>)");
+        Matcher matcher = pattern.matcher(body);
+        if(matcher.find()){
+            return body.substring(matcher.start(), matcher.end()).replaceAll("<.{0,}>", "");
+        }
+        return "";
+    }
+
+    private static String getH1(HttpResponse responsePost) {
+        String body = responsePost.getBody().toString();
+        Pattern pattern = Pattern.compile("(?<=<h1.{0,}>).{1,}(?=<\\/h1>)");
+        Matcher matcher = pattern.matcher(body);
+        if(matcher.find()){
+            return body.substring(matcher.start(), matcher.end()).replaceAll("<.{0,}>", "");
+        }
+        return "";
+    }
+
+    private static String getDescription(HttpResponse responsePost) {
+        String body = responsePost.getBody().toString();
+        Pattern pattern = Pattern.compile("(?<=<meta.{0,}description.{0,} content=\").{1,}(?=\">)");
+        Matcher matcher = pattern.matcher(body);
+        if(matcher.find()){
+            return body.substring(matcher.start(), matcher.end()).replaceAll("<.{0,}>", "");
+        }
+        return "";
+    }
 
     public static Handler check = ctx -> {
         int id = getIdFromPathCheck(ctx.path());
@@ -85,10 +126,11 @@ public class UrlsController {
                 .get(name)
                 .asString();
 
-        UrlCheck urlCheck = new UrlCheck(responsePost.getStatus(), "title", "h1", "dd", findUrl);
-        findUrl.setUrlChecks(urlCheck);
-        ctx.attribute("urlsCheck", findUrl.getUrlChecks());
-        ctx.attribute("flash", "Страница успешно проверена");
-        ctx.render("show.html");
+
+        UrlCheck urlCheck = new UrlCheck(responsePost.getStatus(), getTitle(responsePost), getH1(responsePost), getDescription(responsePost), findUrl);
+        findUrl.getUrlChecks().add(urlCheck);
+        urlCheck.save();
+        ctx.sessionAttribute("flash", "Страница успешно проверена");
+        ctx.redirect("/urls/" + id);
     };
 }

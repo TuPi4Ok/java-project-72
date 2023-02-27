@@ -1,15 +1,13 @@
 package hexlet.code.models;
 
+import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class UrlCheck {
+public class UrlCheck extends Model {
     @Id
     long id;
     long statusCode;
@@ -60,5 +58,33 @@ public class UrlCheck {
 
     public String getFormatDate() {
         return String.format("%1$te/%1$tm/%1$tY %1$tR", this.getCreatedAt());
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setStatusCode(long statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setH1(String h1) {
+        this.h1 = h1;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setUrl(Url url) {
+        this.url = url;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

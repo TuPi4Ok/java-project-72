@@ -6,7 +6,6 @@ import io.ebean.annotation.WhenCreated;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class Url extends Model {
     @WhenCreated
     Date createdAt;
     @OneToMany(mappedBy = "url")
-    List<UrlCheck> urlChecks = new ArrayList<>();
+    List<UrlCheck> urlChecks;
 
     public Url(String name) {
         this.name = name;
@@ -51,11 +50,12 @@ public class Url extends Model {
     public String getFormatDate() {
         return String.format("%1$te/%1$tm/%1$tY %1$tR", this.getCreatedAt());
     }
-    public void setUrlChecks(UrlCheck urlCheck) {
-        this.urlChecks.add(urlCheck);
-    }
 
     public List<UrlCheck> getUrlChecks() {
         return urlChecks;
+    }
+
+    public void setUrlChecks(List<UrlCheck> urlChecks) {
+        this.urlChecks = urlChecks;
     }
 }
