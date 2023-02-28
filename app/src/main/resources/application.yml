@@ -5,7 +5,7 @@ datasource:
     username: "page_analyzer_1icr_user"
     password: "W2fc1nhiHSbcnG4IybaEvrXfUW8L336f"
 #  db:
-#   username: "postgres"
+#    username: "postgres"
 #    password: "ivan2004"
 #    url: "jdbc:postgresql://localhost:5432/JavaProject"
 ebean:
