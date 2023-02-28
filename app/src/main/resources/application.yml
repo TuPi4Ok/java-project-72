@@ -1,9 +1,9 @@
 datasource:
  # default: ${APP_ENV}
   db:
-    url: "jdbc:postgresql://dpg-cfsa919gp3jt6tjh7k3g-a.frankfurt-postgres.render.com:5432/page_analyzer_d2b3"
-    username: "page_analyzer_d2b3_user"
-    password: "HmyHpyByFTe0wXZ8HT3aUIEQosiJX6FL"
+    url: "jdbc:postgresql://dpg-cfus615a499aogr5v740-a.frankfurt-postgres.render.com:5432/page_analyzer_1icr"
+    username: "page_analyzer_1icr_user"
+    password: "W2fc1nhiHSbcnG4IybaEvrXfUW8L336f"
 #  db:
 #   username: "postgres"
 #    password: "ivan2004"
