@@ -67,10 +67,10 @@
     </div>
       <nav th:if="${count != 0}" aria-label="Page navigation p-0">
         <ul class="pagination justify-content-center mt-3">
-          <li th:if="${count + 10 - page * 10 > 10}" class="page-item disabled">
+          <li th:if="${count + 10 - page * 10 <= 10}" class="page-item disabled">
             <a class="page-link" th:href="@{/urls(page=(${page < 2}) ? 1 : (${page - 1}))}">Previous</a>
           </li>
-          <li th:if="${count + 10 - page * 10 <= 10}" class="page-item">
+          <li th:if="${count + 10 - page * 10 > 10}" class="page-item">
             <a class="page-link" th:href="@{/urls(page=(${page < 2}) ? 1 : (${page - 1}))}">Previous</a>
           </li>
 
