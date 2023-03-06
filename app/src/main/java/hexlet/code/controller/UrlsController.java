@@ -128,7 +128,7 @@ public class UrlsController {
     private static String getDescription(HttpResponse responsePost) {
         String body = responsePost.getBody().toString();
 //        Pattern pattern = Pattern.compile("(?<=<meta name=\"description\" content=\").+?(?=\" \\/>)");
-        Pattern pattern = Pattern.compile("<meta name=\"description\" content=\".+?\" \\/>");
+        Pattern pattern = Pattern.compile("<meta name=\"description\" content=\".+?\".*?\\/>");
         Matcher matcher = pattern.matcher(body);
         if(matcher.find()) {
             return body.substring(matcher.start(), matcher.end()).replaceAll("(<meta name=\"description\" content=\"|\" \\/>)", "");
