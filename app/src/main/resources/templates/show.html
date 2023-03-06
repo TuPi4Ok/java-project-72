@@ -65,7 +65,7 @@
                     Запустить проверку
                 </button>
             </form>
-            <table class="table table-bordered mt-3">
+            <table class="table table-bordered table-hover mt-3">
                 <thead>
                     <tr>
                         <th class="col-1">ID</th>
@@ -78,7 +78,7 @@
                 </thead>
                 <tbody>
                     <tr th:each="check : ${urlsCheck}">
-                        <td th:text="${check.getId()}"></td>
+                        <td th:text="${check.getId()}" class="overflow-auto"></td>
                         <td th:text="${check.getStatusCode()}"></td>
                         <td th:text="${check.getTitle()}"></td>
                         <td th:text="${check.getH1()}"></td>

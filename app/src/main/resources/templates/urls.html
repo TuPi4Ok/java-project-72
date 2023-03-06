@@ -58,8 +58,9 @@
             <tr th:each="url : ${urls}">
               <td th:text="${url.getId()}"></td>
               <td><a th:text="${url.getName()}" th:href="@{/urls/{id}(id=*{url.getId()})}"></a></td>
-              <td></td>
-              <td></td>
+              <td th:text="${url.getLastDate()}"></td>
+              <td th:if="${url.getLastStatusCode() != 0}" th:text="${url.getLastStatusCode()}"></td>
+              <td th:if="${url.getLastStatusCode() == 0}"></td>
             </tr>
           </tbody>
         </table>
@@ -67,14 +68,17 @@
     </div>
       <nav th:if="${count != 0}" aria-label="Page navigation p-0">
         <ul class="pagination justify-content-center mt-3">
-          <li th:if="${count + 10 - page * 10 <= 10}" class="page-item disabled">
+          <li th:if="${count + 10 - page * 10 > 10}" class="page-item disabled">
             <a class="page-link" th:href="@{/urls(page=(${page < 2}) ? 1 : (${page - 1}))}">Previous</a>
           </li>
-          <li th:if="${count + 10 - page * 10 > 10}" class="page-item">
+          <li th:if="${count + 10 - page * 10 <= 10}" class="page-item">
             <a class="page-link" th:href="@{/urls(page=(${page < 2}) ? 1 : (${page - 1}))}">Previous</a>
           </li>
 
-          <li class="page-item active"><a class="page-link" th:text="${page}"></a></li>
+          <div th:each="pages : ${pageList}">
+            <li th:if="${page == pages}" class="page-item active"><a class="page-link" th:href="@{/urls(page=${pages})}" th:text="${pages}"></a></li>
+            <li th:if="${page != pages}" class="page-item"><a class="page-link" th:href="@{/urls(page=${pages})}" th:text="${pages}"></a></li>
+          </div>
 
           <li th:if="${count + 10 - page * 10 <= 10}" class="page-item disabled">
             <a class="page-link" th:href="@{/urls(page=${page + 1})}">Next</a>

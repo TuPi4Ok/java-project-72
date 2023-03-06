@@ -1,5 +1,6 @@
 package hexlet.code.models;
 
+import hexlet.code.models.query.QUrlCheck;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 
@@ -57,5 +58,31 @@ public class Url extends Model {
 
     public void setUrlChecks(List<UrlCheck> urlChecks) {
         this.urlChecks = urlChecks;
+    }
+
+    public long getLastStatusCode() {
+        UrlCheck urlCheck = new QUrlCheck()
+                .url.eq(this)
+                .orderBy()
+                .createdAt.desc()
+                .setMaxRows(1)
+                .findOne();
+        if (urlCheck != null) {
+            return urlCheck.getStatusCode();
+        }
+        return 0;
+    }
+
+    public String getLastDate() {
+        UrlCheck urlCheck = new QUrlCheck()
+                .url.eq(this)
+                .orderBy()
+                .createdAt.desc()
+                .setMaxRows(1)
+                .findOne();
+        if (urlCheck != null) {
+            return urlCheck.getFormatDate();
+        }
+        return "";
     }
 }

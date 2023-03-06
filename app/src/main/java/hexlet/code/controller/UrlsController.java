@@ -13,10 +13,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClients;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -68,9 +65,17 @@ public class UrlsController {
 
         int countUrls = new QUrl()
                 .findCount();
+
+        int pageCount = countUrls / 10 + 1;
+        List<Integer> pageList = new ArrayList<>();
+        for(int i = 1; i <= pageCount; i++) {
+            pageList.add(i);
+        }
+
         ctx.attribute("urls", urls);
         ctx.attribute("page", page);
         ctx.attribute("count", countUrls);
+        ctx.attribute("pageList", pageList);
         ctx.render("urls.html");
     };
 
