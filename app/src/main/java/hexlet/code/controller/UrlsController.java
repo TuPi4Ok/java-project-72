@@ -131,7 +131,7 @@ public class UrlsController {
         Pattern pattern = Pattern.compile("<meta name=\"description\" content=\".+?\".*?\\/>");
         Matcher matcher = pattern.matcher(body);
         if(matcher.find()) {
-            return body.substring(matcher.start(), matcher.end()).replaceAll("(<meta name=\"description\" content=\"|\" \\/>)", "");
+            return body.substring(matcher.start(), matcher.end()).replaceAll("(<meta name=\"description\" content=\"|\".*?\\/>)", "");
         }
         return "";
     }
