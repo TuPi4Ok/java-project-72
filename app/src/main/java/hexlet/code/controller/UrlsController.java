@@ -11,11 +11,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.HttpClients;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.net.URL;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class UrlsController {
@@ -103,39 +103,6 @@ public class UrlsController {
         ctx.render("show.html");
     };
 
-    private static String getTitle(HttpResponse responsePost) {
-        String body = responsePost.getBody().toString();
-        //Pattern pattern = Pattern.compile("(?<=<title.{0,}>).{1,}(?=<\\/title>)", Pattern.DOTALL);
-        Pattern pattern = Pattern.compile("<title.{0,}>.{1,}?<\\/title>");
-        Matcher matcher = pattern.matcher(body);
-        if(matcher.find()){
-            return body.substring(matcher.start(), matcher.end()).replaceAll("(<title.*?>|<\\/title>)", "");
-        }
-        return "";
-    }
-
-    private static String getH1(HttpResponse responsePost) {
-        String body = responsePost.getBody().toString();
-//        Pattern pattern = Pattern.compile("(?<=<h1.{0,}>).{1,}(?=<\\/h1>)");
-        Pattern pattern = Pattern.compile("<h1.{0,}?>.{1,}?<\\/h1>");
-        Matcher matcher = pattern.matcher(body);
-        if(matcher.find()){
-            return body.substring(matcher.start(), matcher.end()).replaceAll("(<h1.*?>|<\\/h1>)", "");
-        }
-        return "";
-    }
-
-    private static String getDescription(HttpResponse responsePost) {
-        String body = responsePost.getBody().toString();
-//        Pattern pattern = Pattern.compile("(?<=<meta name=\"description\" content=\").+?(?=\" \\/>)");
-        Pattern pattern = Pattern.compile("<meta name=\"description\" content=\".+?\".*?\\/>");
-        Matcher matcher = pattern.matcher(body);
-        if(matcher.find()) {
-            return body.substring(matcher.start(), matcher.end()).replaceAll("(<meta name=\"description\" content=\"|\".*?\\/>)", "");
-        }
-        return "";
-    }
-
     public static Handler check = ctx -> {
         int id = getIdFromPathCheck(ctx.path());
         Url findUrl = new QUrl()
@@ -151,9 +118,23 @@ public class UrlsController {
         HttpResponse<String> responsePost = Unirest
                 .get(name)
                 .asString();
+        Document doc = Jsoup.parse(responsePost.getBody());
 
+        String description;
+        if(doc.selectFirst("meta[name=description]") != null) {
+            description = doc.selectFirst("meta[name=description]").attr("content");
+        } else {
+            description = "";
+        }
 
-        UrlCheck urlCheck = new UrlCheck(responsePost.getStatus(), getTitle(responsePost), getH1(responsePost), getDescription(responsePost), findUrl);
+        String h1;
+        if(doc.selectFirst("h1") != null) {
+            h1 = doc.selectFirst("h1").text();
+        } else {
+            h1 = "";
+        }
+
+        UrlCheck urlCheck = new UrlCheck(responsePost.getStatus(), doc.title(), h1 , description , findUrl);
 
         findUrl.getUrlChecks().add(urlCheck);
         urlCheck.save();
