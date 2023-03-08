@@ -29,7 +29,7 @@ public class AppTest {
 //    @BeforeEach
 //    void beforeEach(){
 //        Database db = DB.getDefault();
-//        db.truncate("url");
+//        db.truncate("url", "url_check");
 //    }
 //    @Test
 //    void testMainUrl() {
@@ -79,5 +79,27 @@ public class AppTest {
 
         assertThat(responsePost2.getStatus()).isEqualTo(200);
         assertThat(responsePost2.getBody()).contains("https://www.example.com");
+    }
+
+    @Test
+    void testUrlCheck() {
+        HttpResponse <String> responsePost1 = Unirest
+                .post(baseUrl + "/urls")
+                .field("url", "https://www.example.com")
+                .asString();
+        assertThat(responsePost1.getStatus()).isEqualTo(302);
+
+        HttpResponse <String> responsePost2 = Unirest
+                .post(baseUrl + "/urls/1/checks")
+                .asString();
+        assertThat(responsePost2.getStatus()).isEqualTo(302);
+
+        HttpResponse <String> response = Unirest
+                .get(baseUrl + "/urls/1")
+                .asString();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getBody()).contains("Example Domain");
+        assertThat(response.getBody()).contains("200");
     }
 }
