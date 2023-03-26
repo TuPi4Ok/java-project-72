@@ -45,7 +45,7 @@ public class UrlsController {
                 Url newUrl = new Url(itogUrl);
                 newUrl.save();
                 ctx.sessionAttribute("flash", "Страница успешно добавлена");
-                ctx.redirect("/urls?page=1");
+                ctx.redirect("/urls");
                 return;
             }
         } catch (Exception e) {
