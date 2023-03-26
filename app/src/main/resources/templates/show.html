@@ -30,7 +30,7 @@
     </nav>
 </header>
 <main class="flex-grow-1">
-    <div th:if="${session.flash}" class="rounded-0 m-0 alert alert-dismissible fade show alert-success" role="alert">
+    <div th:if="${session.flash}" th:class="'rounded-0 m-0 alert alert-dismissible fade show alert-' + ${ctx.consumeSessionAttribute('flash-type')}" role="alert">
         <p class="m-0" th:text="${session.flash}"></p>
         <button type="button" class="btn-close" data-bs-dismiss="alert" area-lable="close"></button>
         <div th:if="${session.flash}" th:text="${#session.removeAttribute('flash')}"></div>

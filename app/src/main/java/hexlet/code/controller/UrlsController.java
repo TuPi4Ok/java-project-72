@@ -115,30 +115,37 @@ public class UrlsController {
                         .setCookieSpec(CookieSpecs.STANDARD).build())
                 .build();
         Unirest.config().httpClient(httpClient);
-        HttpResponse<String> responsePost = Unirest
-                .get(name)
-                .asString();
-        Document doc = Jsoup.parse(responsePost.getBody());
 
-        String description;
-        if(doc.selectFirst("meta[name=description]") != null) {
-            description = doc.selectFirst("meta[name=description]").attr("content");
-        } else {
-            description = "";
+        UrlCheck urlCheck;
+        try {
+            HttpResponse<String> responsePost = Unirest
+                    .get(name)
+                    .asString();
+            Document doc = Jsoup.parse(responsePost.getBody());
+
+            String description;
+            if(doc.selectFirst("meta[name=description]") != null) {
+                description = doc.selectFirst("meta[name=description]").attr("content");
+            } else {
+                description = "";
+            }
+
+            String h1;
+            if(doc.selectFirst("h1") != null) {
+                h1 = doc.selectFirst("h1").text();
+            } else {
+                h1 = "";
+            }
+
+            urlCheck = new UrlCheck(responsePost.getStatus(), doc.title(), h1 , description , findUrl);
+            findUrl.getUrlChecks().add(urlCheck);
+            urlCheck.save();
+            ctx.sessionAttribute("flash", "Страница успешно проверена");
+            ctx.sessionAttribute("flash-type", "success");
+        } catch (Exception e) {
+            ctx.sessionAttribute("flash", "Некорректный адрес");
+            ctx.sessionAttribute("flash-type", "danger");
         }
-
-        String h1;
-        if(doc.selectFirst("h1") != null) {
-            h1 = doc.selectFirst("h1").text();
-        } else {
-            h1 = "";
-        }
-
-        UrlCheck urlCheck = new UrlCheck(responsePost.getStatus(), doc.title(), h1 , description , findUrl);
-
-        findUrl.getUrlChecks().add(urlCheck);
-        urlCheck.save();
-        ctx.sessionAttribute("flash", "Страница успешно проверена");
         ctx.redirect("/urls/" + id);
     };
 }
