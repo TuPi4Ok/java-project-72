@@ -49,7 +49,7 @@ public class AppTest {
 
     @Test
     void testGetMainPage() {
-        HttpResponse <String> responsePost = Unirest
+        HttpResponse<String> responsePost = Unirest
                 .get(baseUrl + "/")
                 .asString();
         assertThat(responsePost.getStatus()).isEqualTo(200);
@@ -58,7 +58,7 @@ public class AppTest {
 
     @Test
     void testGetUrls() {
-        HttpResponse <String> responsePost = Unirest
+        HttpResponse<String> responsePost = Unirest
                 .get(baseUrl + "/urls")
                 .asString();
         assertThat(responsePost.getStatus()).isEqualTo(200);
@@ -67,13 +67,13 @@ public class AppTest {
 
     @Test
     void testGetUrl() {
-        HttpResponse <String> responsePost1 = Unirest
+        HttpResponse<String> responsePost1 = Unirest
                 .post(baseUrl + "/urls")
                 .field("url", "https://www.example.com")
                 .asString();
         assertThat(responsePost1.getStatus()).isEqualTo(302);
 
-        HttpResponse <String> responsePost2 = Unirest
+        HttpResponse<String> responsePost2 = Unirest
                 .get(baseUrl + "/urls/1")
                 .asString();
 
@@ -83,18 +83,18 @@ public class AppTest {
 
     @Test
     void testUrlCheck() {
-        HttpResponse <String> responsePost1 = Unirest
+        HttpResponse<String> responsePost1 = Unirest
                 .post(baseUrl + "/urls")
                 .field("url", "https://www.example.com")
                 .asString();
         assertThat(responsePost1.getStatus()).isEqualTo(302);
 
-        HttpResponse <String> responsePost2 = Unirest
+        HttpResponse<String> responsePost2 = Unirest
                 .post(baseUrl + "/urls/1/checks")
                 .asString();
         assertThat(responsePost2.getStatus()).isEqualTo(302);
 
-        HttpResponse <String> response = Unirest
+        HttpResponse<String> response = Unirest
                 .get(baseUrl + "/urls/1")
                 .asString();
 
@@ -102,6 +102,4 @@ public class AppTest {
         assertThat(response.getBody()).contains("Example Domain");
         assertThat(response.getBody()).contains("200");
     }
-
-    
 }

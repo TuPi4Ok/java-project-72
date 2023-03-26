@@ -9,7 +9,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-public class App {
+public final class App {
     private static int getPort() {
         String port = System.getenv().getOrDefault("PORT", "3000");
         return Integer.valueOf(port);

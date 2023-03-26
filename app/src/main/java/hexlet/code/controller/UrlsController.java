@@ -15,25 +15,30 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class UrlsController {
+public final class UrlsController {
     private static int getIdFromPath(String path) {
         String[] ids = path.split("/");
         return Integer.parseInt(ids[ids.length - 1]);
     }
 
-    private static int getIdFromPathCheck(String path) {
+    private  static int getIdFromPathCheck(String path) {
         String[] ids = path.split("/");
         return Integer.parseInt(ids[ids.length - 2]);
     }
 
     public static Handler addUrl = ctx -> {
         String getUrl = ctx.formParam("url");
-        try{
+        try {
             URL url = new URL(Objects.requireNonNull(getUrl));
-            String itogUrl = url.getProtocol() + "://" + url.getHost() + (url.getPort() == -1? "": ( ":" + url.getPort()));
+            String itogUrl = url.getProtocol()
+                    + "://" + url.getHost() + (url.getPort() == -1 ? "" : ( ":" + url.getPort()));
 
             Url findUrl = new QUrl()
                     .name.eq(itogUrl)
@@ -68,7 +73,7 @@ public class UrlsController {
 
         int pageCount = countUrls / 10 + 1;
         List<Integer> pageList = new ArrayList<>();
-        for(int i = 1; i <= pageCount; i++) {
+        for (int i = 1; i <= pageCount; i++) {
             pageList.add(i);
         }
 
@@ -97,7 +102,7 @@ public class UrlsController {
                 ))
                 .toList();
         ctx.attribute("url", findUrl);
-        if(urlChecks != null && !urlChecks.isEmpty()) {
+        if (urlChecks != null && !urlChecks.isEmpty()) {
             ctx.attribute("urlsCheck", urlChecks);
         }
         ctx.render("show.html");
@@ -131,13 +136,13 @@ public class UrlsController {
             }
 
             String h1;
-            if(doc.selectFirst("h1") != null) {
+            if (doc.selectFirst("h1") != null) {
                 h1 = doc.selectFirst("h1").text();
             } else {
                 h1 = "";
             }
 
-            urlCheck = new UrlCheck(responsePost.getStatus(), doc.title(), h1 , description , findUrl);
+            urlCheck = new UrlCheck(responsePost.getStatus(), doc.title(), h1, description, findUrl);
             findUrl.getUrlChecks().add(urlCheck);
             urlCheck.save();
             ctx.sessionAttribute("flash", "Страница успешно проверена");

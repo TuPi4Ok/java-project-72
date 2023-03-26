@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class UrlCheck extends Model {
+public final class UrlCheck extends Model {
     @Id
     long id;
     long statusCode;
