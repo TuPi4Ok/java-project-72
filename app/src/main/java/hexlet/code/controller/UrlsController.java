@@ -38,7 +38,7 @@ public final class UrlsController {
         try {
             URL url = new URL(Objects.requireNonNull(getUrl));
             String itogUrl = url.getProtocol()
-                    + "://" + url.getHost() + (url.getPort() == -1 ? "" : ( ":" + url.getPort()));
+                    + "://" + url.getHost() + (url.getPort() == -1 ? "" : (":" + url.getPort()));
 
             Url findUrl = new QUrl()
                     .name.eq(itogUrl)
@@ -129,7 +129,7 @@ public final class UrlsController {
             Document doc = Jsoup.parse(responsePost.getBody());
 
             String description;
-            if(doc.selectFirst("meta[name=description]") != null) {
+            if (doc.selectFirst("meta[name=description]") != null) {
                 description = doc.selectFirst("meta[name=description]").attr("content");
             } else {
                 description = "";
